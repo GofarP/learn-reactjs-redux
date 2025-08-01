@@ -17,7 +17,9 @@ export default function Counter() {
         <div>
             <h1>Counter:{counter}</h1>
             <button onClick={handleIncrement}>Increment</button>
+            <button onClick={()=>dispatch(increment(2))}>Increment +2</button>
             <button onClick={handleDecrement}>Decrement</button>
+            <button onClick={()=>dispatch(decrement(2))}>Decrement +2</button>
         </div>
     )
 };
