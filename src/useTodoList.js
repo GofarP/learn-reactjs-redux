@@ -1,39 +1,38 @@
-import {createSlice} from "@reduxjs/toolkit";
+// src/useTodoList.js
+import { createSlice } from "@reduxjs/toolkit";
 
-export const todoListSlice=createSlice({
-    name:"todoList",
-    initialState: {
-        todos: [],
-        nextId: 1
+const initialState = {
+  todos: [],
+  nextId: 1,
+};
+
+export const todoListSlice = createSlice({
+  name: "todoList",
+  initialState,
+  reducers: {
+    addTodo: (state, action) => {
+      const { name } = action.payload;
+      state.todos.push({ id: state.nextId, name });
+      state.nextId++;
     },
-    reducers:{
-        addTodo:(state, action)=>{
-            const {name}=action.payload;
-            state.todos.push({name, id: state.nextId});
-            state.nextId++;
-        },
-        removeTodo:(state, action)=>{
-            const {id}=action.payload;
-            const index=state.todos.findIndex(todo=>todo.id===id);
-            if(index!== -1){
-                state.todos.splice(index, 1)
-            }
-        },
-
-        updateTodo(state, action){
-            const {id, name}=action.payload;
-            const todo=state.todos.find(todo=>todo.id===id);
-            if(todo){
-                todo.name=name
-            }
-        }
+    removeTodo: (state, action) => {
+      const { id } = action.payload;
+      state.todos = state.todos.filter(todo => todo.id !== id);
     },
-    selectors:{
-        getTodo(state, id){
-            return state.todos.find(todo=>todo.id === id)
-        }
-    }
-})
+    updateTodo: (state, action) => {
+      const { id, name } = action.payload;
+      const todo = state.todos.find(todo => todo.id === id);
+      if (todo) {
+        todo.name = name;
+      }
+    },
+  },
+});
 
-export const {addTodo, removeTodo, updateTodo}=todoListSlice.actions
-export const {getTodo}=todoListSlice.selectors
+// Action creators
+export const { addTodo, removeTodo, updateTodo } = todoListSlice.actions;
+
+// Selector manual
+export const getTodo = (state, id) =>
+  state.todoList.todos.find(todo => todo.id === id);
+
