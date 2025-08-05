@@ -2,12 +2,13 @@
 import { useDispatch, useSelector } from "react-redux";
 import { addTodo, removeTodo } from "./useTodoList";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function ListTodo() {
   const todos = useSelector((state) => state.todoList.todos);
   const dispatch = useDispatch();
   const [name, setName] = useState("");
-
+  const navigate=useNavigate();
   const handleSubmit = (e) => {
     e.preventDefault();
     if (name.trim()) {
@@ -44,6 +45,7 @@ export default function ListTodo() {
               <td>{todo.id}</td>
               <td>{todo.name}</td>
               <td>
+                <button onClick={()=>navigate(`/todolist/${todo.id}/edit`)}>Edit</button>
                 <button onClick={() => dispatch(removeTodo({ id: todo.id }))}>
                   Delete
                 </button>
